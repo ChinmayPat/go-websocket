@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://unpkg.com/htmx.org@2.0.3"
+      integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+  </head>
+  <body class="m-5">
+    <h1 class="font-semibold text-xl">Web Socket</h1>
+
+    <form
+      hx-post="/message"
+      hx-target="#response"
+      hx-swap="innerHTML"
+      hx-trigger="click[event.target.matches('#submit-button')] from:body"
+    >
+      <div class="size-full rounded-md border p-4 mt-2 mb-2">
+        <textarea
+          class="w-full h-96 rounded-md p-1"
+          placeholder="Enter WS Message"
+          name="message-area"
+          id="text-area"
+        >
+        </textarea>
+        <button
+          type="button"
+          class="rounded-lg bg-sky-500 text-white size-fit p-2 bottom-0 sticky"
+          onclick="prettyPrint()"
+        >
+          Prettify
+        </button>
+      </div>
+      <button
+        id="submit-button"
+        type="submit"
+        class="rounded-full bg-red-500 text-white size-full p-3"
+      >
+        Submit
+      </button>
+    </form>
+    <h1 class="font-semibold text-xl">Response</h1>
+    <div class="border" id="response"></div>
+  </body>
+  <script>
+    function prettyPrint() {
+      var ugly = document.getElementById("text-area").value;
+      var obj = JSON.parse(ugly);
+      var pretty = JSON.stringify(obj, undefined, 4);
+      document.getElementById("text-area").value = pretty;
+    }
+  </script>
+</html>
