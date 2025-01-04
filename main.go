@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/a-h/templ"
 	"github.com/gorilla/websocket"
 )
 
@@ -68,9 +69,9 @@ func sendMessageToWS(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", handleHTTP)
-	http.HandleFunc("/ws", handleWS)
-	http.HandleFunc("/message", sendMessageToWS)
+	http.Handle("/", templ.Handler(hello("CP")))
+	//http.HandleFunc("/ws", handleWS)
+	//http.HandleFunc("/message", sendMessageToWS)
 	log.Print("Starting server...")
 	log.Fatal(http.ListenAndServe("localhost:8080", nil))
 }
