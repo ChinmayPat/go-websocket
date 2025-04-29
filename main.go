@@ -1,11 +1,11 @@
 package main
 
 import (
-	"html/template"
 	"log"
 	"net/http"
 	"strings"
 
+	"github.com/a-h/templ"
 	"github.com/gorilla/websocket"
 )
 
@@ -16,9 +16,9 @@ type webSocket struct {
 
 var webSocketHandler = webSocket{
 	upgrader: websocket.Upgrader{
-		CheckOrigin:  func(r *http.Request) bool {
+		CheckOrigin: func(r *http.Request) bool {
 			return true
-			},
+		},
 	},
 }
 
@@ -56,11 +56,9 @@ func handleWS(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleHTTP(w http.ResponseWriter, r *http.Request) {
-	indexHtml := template.Must(template.ParseFiles("index.html"))
-	if err := indexHtml.Execute(w, nil); err != nil {
-		log.Println("Failed to render html: ", err)
-		return
-	}
+	component := hello("John")
+	indexHtml := templ.Handler(component)
+	indexHtml.ServeHTTP(w, r)
 }
 
 func sendMessageToWS(w http.ResponseWriter, r *http.Request) {
