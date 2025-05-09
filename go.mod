@@ -1,4 +1,4 @@
-module main
+module go-websocket
 
 go 1.23.0
 

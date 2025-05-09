@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"strings"
 
+	"go-websocket/templates"
+
 	"github.com/a-h/templ"
 	"github.com/gorilla/websocket"
 )
@@ -56,7 +58,7 @@ func handleWS(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleHTTP(w http.ResponseWriter, r *http.Request) {
-	component := hello("John")
+	component := templates.Hello("John")
 	indexHtml := templ.Handler(component)
 	indexHtml.ServeHTTP(w, r)
 }
