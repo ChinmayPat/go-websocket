@@ -3,6 +3,7 @@ package main
 import (
 	"html/template"
 	"log"
+	"main/room"
 	"net/http"
 	"strings"
 
@@ -16,9 +17,9 @@ type webSocket struct {
 
 var webSocketHandler = webSocket{
 	upgrader: websocket.Upgrader{
-		CheckOrigin:  func(r *http.Request) bool {
+		CheckOrigin: func(r *http.Request) bool {
 			return true
-			},
+		},
 	},
 }
 
@@ -72,6 +73,7 @@ func sendMessageToWS(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	room.CreateRoom("room1")
 	http.HandleFunc("/", handleHTTP)
 	http.HandleFunc("/ws", handleWS)
 	http.HandleFunc("/message", sendMessageToWS)
